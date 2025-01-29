@@ -7,11 +7,8 @@ import 'forgotpassword.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
-  // Controllers for capturing user input
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  // Key for form validation
   final _formKey = GlobalKey<FormState>();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -28,7 +25,7 @@ class LoginPage extends StatelessWidget {
         ),
       ),
       body: Form(
-        key: _formKey, // Attach the form key
+        key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -83,12 +80,10 @@ class LoginPage extends StatelessWidget {
                 onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     try {
-                      // Firebase sign-in
                       await _auth.signInWithEmailAndPassword(
                         email: emailController.text.trim(),
                         password: passwordController.text.trim(),
                       );
-                      // Navigate to home page on success
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -96,7 +91,6 @@ class LoginPage extends StatelessWidget {
                         ),
                       );
                     } on FirebaseAuthException catch (e) {
-                      // Display error messages
                       String errorMessage;
                       if (e.code == 'user-not-found') {
                         errorMessage = 'No user found for that email.';
